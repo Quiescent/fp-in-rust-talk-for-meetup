@@ -1,3 +1,7 @@
+mod iterable;
+
+use iterable::iterable::*;
+
 fn next_approximation(n: f64, previous: f64) -> f64 {
     (previous + n / previous) / 2.0
 }
@@ -10,12 +14,6 @@ fn naive_sqrts(n: f64, len: usize) -> Vec<f64> {
         approximations.push(next_approximation(n, previous));
     }
     approximations
-}
-
-trait Iterable<T> {
-    fn new(n: f64) -> Self;
-    fn next(&self) -> Self;
-    fn get(&self) -> T;
 }
 
 struct NewtonRhapsodyApproximation {
@@ -44,25 +42,9 @@ impl Iterable<f64> for NewtonRhapsodyApproximation {
 
 }
 
-fn take<T>(xs: dyn Iterable<T>, x: usize) -> Vec<f64> {
-    let mut ys = Vec::new();
-    (0..x).fold(xs,
-                |res, _| {
-                    ys.push(res.get());
-                    res.next()
-                });
-    ys
-}
-
-fn drop<T>(xs: dyn Iterable<T>, x: usize) -> impl Iterable<T> {
-    ((0..x).fold(xs,|res, _| res.next()))
-}
-
-
 fn main() {
     println!("sqrt 5: {:?}", naive_sqrts(5.0, 10));
-    let after_a_couple = NewtonRhapsodyApproximation::new(5.0)
-        .drop(10)
-        .get();
+    let after_a_couple =
+        drop(NewtonRhapsodyApproximation::new(5.0), 10).get();
     println!("sqrt 5: {}", after_a_couple);
 }
