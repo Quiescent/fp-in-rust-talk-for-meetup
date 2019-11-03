@@ -2,7 +2,3 @@
 name = "newton-rhapson-square-roots"
 version = "0.1.0"
 authors = ["Edward Steere <edward.steere@gmail.com>"]
-
-[lib]
-name = "iterable"
-path = "src/iterable/iterable.rs"
