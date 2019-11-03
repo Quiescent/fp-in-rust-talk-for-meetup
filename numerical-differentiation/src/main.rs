@@ -28,7 +28,7 @@ impl<'a> Iterable<f64> for NumericalDifferentiation<'a> {
 }
 
 fn within(eps: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
-    let mut current  = xs.next();
+    let mut current = xs.next();
     while (current.next().get() - current.get()).abs() > eps {
         current = current.next();
     }
@@ -36,11 +36,34 @@ fn within(eps: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
 }
 
 fn relative(eps: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
-    let mut current  = xs.next();
+    let mut current = xs.next();
     while (current.next().get() / current.get() - 1.0).abs() > eps {
         current = current.next();
     }
     current
+}
+
+struct NumberIterator<'a> {
+    xs: &'a dyn Iterable<f64>,
+    f: &'a dyn Fn(&dyn Iterable<f64>) -> f64,
+}
+
+impl<'a> Iterable<f64> for NumberIterator<'a> {
+    fn next(&self) -> NumberIterator<'a> {
+        NumberIterator {
+            xs: &self.xs.next(),
+            f: self.f,
+        }
+    }
+
+    fn get(&self) -> f64 {
+        self.f(self.xs)
+    }
+}
+
+fn eliminator(m: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
+    let current = xs.next();
+    
 }
 
 fn new_numerical_differentiation<'a>(n: f64, f: &'a dyn Fn(f64) -> f64) -> NumericalDifferentiation<'a> {
