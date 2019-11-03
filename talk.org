@@ -65,3 +65,38 @@ performs the calculation.  We just want it to be correct.
 So without further ado; let's drop into the story of me bashing my
 head against the rust compiler.
 
+So the "Why Functional Programming Matters" paper takes four example
+problems and shows how you can implement the solutions to those
+problems in a way which builds upon the previous solutions.  The
+writers of the paper were so masterful that they made it seem as
+though the elements of your program are infinitely divisible.  Into
+small little pieces which are all correct and useful in isolation, and
+which can be used in conjunction to build a bigger program.
+
+Let's take a look at the first one.  Everyone heard of Newton's
+approximation to finding the square root of a number?  Well apparently
+there was another dude who should be credited when we talk about the
+method (Rhapson)?
+
+Anyway, here's the formula for computing a better approximation from
+your current approximation.  Repeated application of this formula will
+result in an improving series of approximations to the square root of
+a number.  So lets take a look at how you'd go about implementing a
+numerical square root calculator using this function.
+
+Here's a standard imperative solution to the problem.  We ask for an
+epsilon because we don't want global variables hanging over us.  And
+we repeatedly apply the formula until the ratio of the next
+approximation to the previous is good enough.  You can also use the
+absolute difference between two successive values, but this is also
+has some pitfalls.  (You might, for instance, never terminate with
+that method because the approximation might not converge within your
+desired accuracy.)
+
+This method works fine.  We can find pretty accurate approximations of
+the square root of a number.  Check it out.  Here's the square root of
+five and it does indeed approximately square back to 5.
+
+If we take a look at the code for the imperative square root
+calculator again we can see that there are a number of useful elements
+to the code.
