@@ -12,5 +12,46 @@
 #+EXCLUDE_TAGS: noexport
 #+CREATOR: Emacs 27.0.50 (Org mode 9.1.9)
 
+Now I bet you've seen the title and you think that I'm going to come
+up here and try to dazzle you with the beauty and elegance of FP.  In
+truth.  I'm a bit mad.  You see, I've just returned from some
+adventuring overseas, with fresh scars and a healthy bout of jet lag,
+and when Justin asked me whether I still wanted to go through with the
+talk, I said "Sure!  Why not!"
 
-* Introduction
+Now it might not sound like such a big deal.  I had a week and a week
+end to put something together for what is usually a very fun and
+informal meetup where we all scratch our heads as we try to understand
+some arcane detail about the Rust language.
+
+Here's the kicker, though.  Are you ready for it?  So I agreed to do a
+talk on Functional Programming in Rust, but I'd never actually written
+a single Rust program in my life.
+
+So this weekend I went through the mind numbing experience which is
+the CCCC.  The Code, Compile, Confusion, Cycle.
+
+I know that most of us are acquainted with the experience already and
+it's incredibly odd that I haven't yet been through it, but for those
+who haven't and for some laughs for those who have: this is how it
+goes:
+ - write code in a style which you're familiar with;
+ - compile the program and watch as you're assaulted with a slew of
+   errors, peppered with helpful advice and hyperlinks;
+ - scratch your head in confusion as it claims that the method which
+   you're implementing on a trait wont work because the return type,
+   which is dependent on the trait, must have known size at compile
+   time and that, you could implement a trait which tells the compiler
+   about its size.
+ - try to use what you've learned along with a healthy dollop of
+   reading the docs and then start the cycle again from the coding
+   step.
+
+So.  Obviously.  I wouldn't try something crazy like re-implementing
+some classic example from the world of FP in Rust would I?  Oh yes I
+would and this talk is as much a story of how that went as it is a
+discussion of FP in Rust.  What it does well and why I can't seem to
+make it work the way I want it to yet.
+
+So who here has heard of the classic paper "Why Functional Programming
+Matters"?  
