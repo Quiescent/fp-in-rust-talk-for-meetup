@@ -2,6 +2,7 @@ mod iterable;
 
 use iterable::iterable::*;
 
+#[derive(Copy, Clone)]
 struct NumericalDifferentiation<'a> {
     h: f64,
     n: f64,
@@ -43,28 +44,55 @@ fn relative(eps: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
     current
 }
 
+#[derive(Copy, Clone)]
 struct NumberIterator<'a> {
-    xs: &'a dyn Iterable<f64>,
-    f: &'a dyn Fn(&dyn Iterable<f64>) -> f64,
+    xs: NumericalDifferentiation<'a>
 }
 
 impl<'a> Iterable<f64> for NumberIterator<'a> {
     fn next(&self) -> NumberIterator<'a> {
         NumberIterator {
-            xs: &self.xs.next(),
-            f: self.f,
+            xs: self.xs.next()
         }
     }
 
     fn get(&self) -> f64 {
-        self.f(self.xs)
+        self.xs.get()
     }
 }
 
-fn eliminator(m: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
-    let current = xs.next();
-    
+#[derive(Copy, Clone)]
+struct MappedIterator<'a> {
+    xs: NumberIterator<'a>,
+    f: &'a dyn Fn(MappedIterator<'a>) -> MappedIterator<'a>,
 }
+
+trait Functor<'a> {
+    fn map(&self, &'a dyn Fn(MappedIterator<'a>) -> MappedIterator<'a>) -> MappedIterator<'a>;
+}
+
+impl<'a> Functor<'a> for NumberIterator<'a> {
+    fn map(&self, f: &'a dyn Fn(MappedIterator<'a>) -> MappedIterator<'a>) -> MappedIterator<'a> {
+        MappedIterator {
+            xs: *self,
+            f: f,
+        }
+    }
+}
+
+impl<'a> Functor<'a> for MappedIterator<'a> {
+    fn map(&self, f: &'a dyn Fn(MappedIterator<'a>) -> MappedIterator<'a>) -> MappedIterator<'a> {
+        MappedIterator {
+            xs: self.xs,
+            f: &|iterator| f((self.f)(iterator)),
+        }
+    }
+}
+
+// fn eliminator(m: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
+//     let current = xs.next();
+
+// }
 
 fn new_numerical_differentiation<'a>(n: f64, f: &'a dyn Fn(f64) -> f64) -> NumericalDifferentiation<'a> {
     NumericalDifferentiation {
