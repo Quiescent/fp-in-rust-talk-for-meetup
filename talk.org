@@ -54,4 +54,14 @@ discussion of FP in Rust.  What it does well and why I can't seem to
 make it work the way I want it to yet.
 
 So who here has heard of the classic paper "Why Functional Programming
-Matters"?  
+Matters"?  So it makes the case that Functional Programming matters
+because it describes a set of characteristics which make it easy and
+safe to build bigger programs from small ones and be sure that you're
+always doing so in a way which will be correct.  The important part
+here is *correct*.  Functional programmers generally don't care
+whether a flock of birds dropping stones onto a matrix of balloons
+performs the calculation.  We just want it to be correct.
+
+So without further ado; let's drop into the story of me bashing my
+head against the rust compiler.
+
