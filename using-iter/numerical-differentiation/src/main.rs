@@ -4,6 +4,7 @@ fn within<'a>(mut xs: impl Iterator<Item = f64>, eps: f64) -> f64 {
     while (next - current).abs() > eps {
         current = next;
         next    = xs.next().unwrap();
+        println!("tick within");
     }
     next
 }
@@ -14,6 +15,7 @@ fn relative<'a>(mut xs: impl Iterator<Item = f64>, eps: f64) -> f64 {
     while (next / current - 1.0).abs() > eps {
         current = next;
         next    = xs.next().unwrap();
+        println!("tick relative");
     }
     next
 }
@@ -32,10 +34,27 @@ fn differentiate_approximations<'a>(n: f64, h0: f64, f: &'a dyn Fn(f64) -> f64) 
             .map(move |h| gradient(n, h, f)))
 }
 
+fn eliminate_error(n: i32, mut xs: impl 'static + Iterator<Item = f64>) -> Box<dyn Iterator<Item = f64>> {
+    let mut previous = xs.next().unwrap();
+    let base: f64 = 2.0;
+    Box::new(
+        xs.map(move |current| {
+            let exp_term    = base.powi(n);
+            let numerator   = previous * exp_term - current;
+            let denominator = exp_term - 1.0;
+            let res         = numerator / denominator;
+            previous = current;
+            res
+        })
+    )
+}
 
-// fn eliminator(m: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
-//     let current = xs.next();
-// }
+fn order(mut xs: impl 'static + Iterator<Item = f64>) -> i32 {
+    let c = xs.next().unwrap();
+    let b = xs.next().unwrap();
+    let a = xs.next().unwrap();
+    ((a - c) / (b - c) - 1.0).log2().round() as i32
+}
 
 fn main() {
     let function = |x| 3.0 * (x * x) + 2.0 * x + 3.0;
@@ -47,5 +66,13 @@ fn main() {
     println!("sqrt 5: {}", within_epsilon);
     let within_relative =
         relative(differentiate_approximations(5.0, 1.0, &function), 0.00000000001);
+    println!("sqrt 5: {}", within_relative);
+    let approximations  =
+        differentiate_approximations(5.0, 1.0, &|x| 3.0 * (x * x) + 2.0 * x + 3.0);
+    let n               =
+        order(differentiate_approximations(5.0, 1.0, &|x| 3.0 * (x * x) + 2.0 * x + 3.0));
+    println!("order: {}", n);
+    let within_relative =
+        relative(eliminate_error(n, approximations), 0.00000000001);
     println!("sqrt 5: {}", within_relative);
 }

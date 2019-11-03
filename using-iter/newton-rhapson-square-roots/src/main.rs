@@ -12,6 +12,14 @@ fn naive_sqrt(n: f64, eps: f64) -> f64 {
     next
 }
 
+// Doesn't work!  Please halp if you can!
+// fn within(xs: impl Iterator<Item = f64>, eps: f64) -> f64 {
+//     xs.zip(xs.skip(1))
+//         .skip_while(|next_current| (next_current.0 - next_current.1).abs() > eps)
+//         .nth(0)
+//         .unwrap().0
+// }
+
 fn within<'a>(mut xs: impl Iterator<Item = f64>, eps: f64) -> f64 {
     let mut current = xs.next().unwrap();
     let mut next    = xs.next().unwrap();
@@ -35,7 +43,7 @@ fn relative<'a>(mut xs: impl Iterator<Item = f64>, eps: f64) -> f64 {
 use std::*;
 use std::iter::*;
 
-fn square_root_approximations(n: f64) -> Successors<f64, impl FnMut(&f64) -> Option<f64>> {
+fn square_root_approximations(n: f64) -> impl Iterator<Item = f64> {
     iter::successors(Some(n / 2.0), move |current| Some(next_approximation(n, *current)))
 }
 
