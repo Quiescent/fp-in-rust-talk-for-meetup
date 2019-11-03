@@ -1,0 +1,4 @@
+[package]
+name = "newton-rhapson-square-roots"
+version = "0.1.0"
+authors = ["Edward Steere <edward.steere@gmail.com>"]
