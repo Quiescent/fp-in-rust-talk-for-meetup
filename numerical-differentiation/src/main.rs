@@ -9,20 +9,20 @@ struct NumericalDifferentiation<'a> {
 }
 
 fn gradient<F>(n: f64, h: f64, f: F) -> f64 where F: Fn(f64) -> f64 {
-    (f(n + h) - f(n - h)) / (h * 2.0)
+    (f(n + h) - f(n)) / h
 }
 
 impl<'a> Iterable<f64> for NumericalDifferentiation<'a> {
     fn next(&self) -> NumericalDifferentiation<'a> {
         NumericalDifferentiation {
-            h: gradient(self.n, self.h, self.f),
+            h: self.h / 2.0,
             n: self.n,
             f: self.f,
         }
     }
 
     fn get(&self) -> f64 {
-        self.h
+        gradient(self.n, self.h, self.f)
     }
 
 }
@@ -46,7 +46,7 @@ fn relative(eps: f64, xs: &impl Iterable<f64>) -> impl Iterable<f64> {
 fn new_numerical_differentiation<'a>(n: f64, f: &'a dyn Fn(f64) -> f64) -> NumericalDifferentiation<'a> {
     NumericalDifferentiation {
         n: n,
-        h: 0.1,
+        h: 1.0,
         f: f,
     }
 }
