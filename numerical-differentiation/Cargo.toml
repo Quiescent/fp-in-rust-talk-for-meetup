@@ -1,6 +1,8 @@
 [package]
-name = "numerical-differentiation"
+name = "newton-rhapson-square-roots"
 version = "0.1.0"
 authors = ["Edward Steere <edward.steere@gmail.com>"]
 
-[dependencies]
+[lib]
+name = "iterable"
+path = "src/iterable/iterable.rs"
