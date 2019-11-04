@@ -281,3 +281,57 @@ I've copied the implementation of within and relative across.
 Here's a simple calculation for the slope of a function at a point.
 We can successively improve this calculation by choosing a smaller and
 smaller ~h~.  Choosing a good value of ~h~ is the challenge.
+
+So we can successively halve a conservative value of ~h~ until the
+calculation converges on the slope at point.  Let's model that as a
+series of halving values and let's apply it to the slope function.
+I've kept these two iterators in the same function, but I could just
+as well have defined them separately.
+
+We can use the exact same functions as before to get an approximation
+of the slope within an absolute or relative difference to within some
+defined precision.  And that's great.  It shows that the method is not
+only applicable to square rooting.
+
+To really make my point I'm going to introduce you to the final
+component here.  Because we have a series of approximations which
+converges on our answer, but it turns out that there's an error term
+in those approximations which is proportional to ~h~.
+
+It boils down to this formula.  Where n can be computed as follows.
+So let's take the very same iterator which we can use for either the
+~epsilon~ or the ~within~ functions and let's improve the calculation
+by eliminating the error term which we introduced with the
+approximation.
+
+The series should converge much faster now.  Indeed it does.  I
+peppered the code with ~println~ so that you can see how many ticks it
+took to find the answer.  In this case it's not a massive
+improvement... initially.  Let's try improving it again.  This is
+getting really unwieldy because I'm not sure how to copy the
+iterator.  (If any of you know then that'd make my day!)  But it does
+indeed improve the convergence.  Now if I could figure out how to copy
+the iterator then we could keep on applying improve and it would
+eventually converge very quickly.
+
+Let's take a step back though and just think about what we were able
+to do.  We took a program which seemed to be indivisible and we
+divided it into chunks which were each useful in their own right.
+Then we found other ways to glue the same parts of the program
+together.  All of this was done in a way which uses truly general
+abstractions.  That is, it would be just as valid to model a network
+connection with the same sort of ideas that I've presented tonight and
+then you'd be able to write small pieces of code and use them to build
+bigger programs.
+
+We've done all of this while maintaining not only type safety, but
+also, quite miraculously, memory safety in a non garbage collected
+context.  These programs are truly fast.  They make Haskell look like
+Bash in terms of speed.  I didn't set out to prove that part to you.
+I thought that I'd write something which would make us all scratch our
+chins and pontificate on the meaning of programming.  I didn't
+anticipate that my program would compete with the imperative version.
+That is the power of Rust.  If you're willing to bash your head
+against a wall for a while, want all the control without losing
+safety and can sacrifice a bit of the elegance of Haskell then you'll
+never need another programming language.
