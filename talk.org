@@ -229,3 +229,55 @@ these results!  It's pretty much bellow the noise floor, but every
 time that I run it, the iterator comes out faster(!)  That's pretty
 impressive stuff!
 
+I didn't set out to make something particularly fast.  I really just
+wanted to demonstrate how you can glue together smaller pieces to make
+a program and how with Functional Programming, seemingly indivisible,
+bigger pieces of code can be divided.
+
+This was my very first Rust program!  Naturally I didn't yet know a
+lot about the standard library.  So after spending two days bashing my
+head against the compiler I eventually discovered how to do this stuff
+with built in functionality.  Now let's take a look at the same code,
+but implemented with the Rust standard library.
+
+So all of the iterator library that I wrote can be replaced by the
+standard iterator ~Successors~ object.  This enables you to describe
+infinite iterations and again, all I've told the Rust compiler is that
+there exists an ~Iterator~ for which this holds true and it's smart
+enough to make this all happen statically.  Here are the
+implementations of ~within~ and ~relative~.  Pretty straight forward,
+but there's a problem: they mutate their argument.
+
+I'm forced to do this because I want the next element out of the
+iterator.  Now in other languages this would mean that these functions
+don't compose, because mutating the iterator would mean that the next
+function to use it would receive it in an unknown state, but in Rust
+you can only have one mutable reference so we can prove that this
+function is pure.  The iterator given to this function can't also be
+supplied to another function from the calling context.  So even though
+it's not strictly pure, we'll never run into impure behaviour(!)
+
+Perhaps it's possible to have your cake and eat it!  But that's only
+possible if banging your head against the compiler didn't result in
+severe facial injuries!
+
+Let's take a quick look at how you'd go about using the new infinite
+iterator.  It's pretty much the same expect now you have the full
+power of the Rust standard libraries behind you.
+
+This is what I'd like to have done for the implementation of ~within~
+because it doesn't even need a mutable reference.  I couldn't get it
+to work because it requires that the iterator be borrowed into the
+call to zip but also used outside.  I couldn't get ~clone~ or ~copy~
+to work either.
+
+So having established the foundation for working with iterators, lets
+take a look at another example.
+
+Here we're trying to differentiate a function at a point.
+
+I've copied the implementation of within and relative across.
+
+Here's a simple calculation for the slope of a function at a point.
+We can successively improve this calculation by choosing a smaller and
+smaller ~h~.  Choosing a good value of ~h~ is the challenge.

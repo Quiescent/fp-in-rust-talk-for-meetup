@@ -20,7 +20,7 @@ fn relative<'a>(mut xs: impl Iterator<Item = f64>, eps: f64) -> f64 {
     next
 }
 
-fn gradient<F>(n: f64, h: f64, f: F) -> f64 where F: Fn(f64) -> f64 {
+fn slope<F>(n: f64, h: f64, f: F) -> f64 where F: Fn(f64) -> f64 {
     (f(n + h) - f(n)) / h
 }
 
@@ -31,7 +31,7 @@ fn differentiate_approximations<'a>(n: f64, h0: f64, f: &'a dyn Fn(f64) -> f64) 
     Box<dyn Iterator<Item = f64> + 'a> {
     Box::new(
         iter::successors(Some(h0), move |current| Some(current / 2.0))
-            .map(move |h| gradient(n, h, f)))
+            .map(move |h| slope(n, h, f)))
 }
 
 fn eliminate_error(n: i32, mut xs: impl 'static + Iterator<Item = f64>) -> Box<dyn Iterator<Item = f64>> {
