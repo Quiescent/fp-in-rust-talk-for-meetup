@@ -34,17 +34,21 @@ fn differentiate_approximations<'a>(n: f64, h0: f64, f: &'a dyn Fn(f64) -> f64) 
             .map(move |h| slope(n, h, f)))
 }
 
+fn eliminate_current_error(n: i32, previous: f64, current: f64) -> f64 {
+    let base: f64   = 2.0;
+    let exp_term    = base.powi(n);
+    let numerator   = previous * exp_term - current;
+    let denominator = exp_term - 1.0;
+    let res         = numerator / denominator;
+    res
+}
+
 fn eliminate_error(n: i32, mut xs: impl 'static + Iterator<Item = f64>) -> Box<dyn Iterator<Item = f64>> {
     let mut previous = xs.next().unwrap();
-    let base: f64 = 2.0;
     Box::new(
         xs.map(move |current| {
-            let exp_term    = base.powi(n);
-            let numerator   = previous * exp_term - current;
-            let denominator = exp_term - 1.0;
-            let res         = numerator / denominator;
             previous = current;
-            res
+            eliminate_current_error(n, previous, current)
         })
     )
 }
