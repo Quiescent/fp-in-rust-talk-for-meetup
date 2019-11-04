@@ -79,4 +79,12 @@ fn main() {
     let within_relative =
         relative(eliminate_error(n, approximations), 0.00000000001);
     println!("sqrt 5: {}", within_relative);
+    let within_relative =
+        relative(
+            eliminate_error(order(eliminate_error(order(differentiate_approximations(5.0, 1.0, &|x| 3.0 * (x * x) + 2.0 * x + 3.0)),
+                                                  differentiate_approximations(5.0, 1.0, &|x| 3.0 * (x * x) + 2.0 * x + 3.0))),
+                            eliminate_error(order(differentiate_approximations(5.0, 1.0, &|x| 3.0 * (x * x) + 2.0 * x + 3.0)),
+                                            differentiate_approximations(5.0, 1.0, &|x| 3.0 * (x * x) + 2.0 * x + 3.0))),
+            0.00000000001);
+    println!("sqrt 5: {}", within_relative);
 }
