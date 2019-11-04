@@ -16,6 +16,14 @@ fn naive_sqrts(n: f64, len: usize) -> Vec<f64> {
     approximations
 }
 
+fn naive_sqrt(n: f64, times: u32) -> f64 {
+    let mut current  = n / 2.0;
+    for _ in 1..times {
+        current  = next_approximation(n, current);
+    }
+    current
+}
+
 struct NewtonRhapsodyApproximation {
     current: f64,
     n: f64,
@@ -63,6 +71,9 @@ fn main() {
     let after_a_couple =
         drop(NewtonRhapsodyApproximation::new(5.0), 10).get();
     println!("sqrt 5: {}", after_a_couple);
+    let a_couple =
+        take(NewtonRhapsodyApproximation::new(5.0), 10);
+    println!("sqrt 5: {:?}", a_couple);
     let within_epsilon =
         within(
             0.00000000001,
@@ -73,4 +84,12 @@ fn main() {
             0.00000000001,
             &NewtonRhapsodyApproximation::new(5.0)).get();
     println!("sqrt 5: {}", within_relative);
+
+    let start_imperative = std::time::Instant::now();
+    println!("sqrt 5: {}", naive_sqrt(5.0, 1000000000));
+    println!("duration imperative: {:?}", std::time::Instant::now().duration_since(start_imperative));
+
+    let start_iterator = std::time::Instant::now();
+    println!("sqrt 5: {}", drop(NewtonRhapsodyApproximation::new(5.0), 1000000000).get());
+    println!("duration iterative: {:?}", std::time::Instant::now().duration_since(start_iterator));
 }

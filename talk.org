@@ -99,4 +99,133 @@ five and it does indeed approximately square back to 5.
 
 If we take a look at the code for the imperative square root
 calculator again we can see that there are a number of useful elements
-to the code.
+in the code.  We have:
+ - a heuristic for determining when to stop iterating;
+ - a calculation of the next approximation which is dependent on the
+   previous;
+ - the implementation of a control structure which iterates until the
+   approximation is good enough;
+
+If you're of the opinion that these elements should not be
+disentangled then I'm hoping to make you reconsider your position
+before the night is over.
+
+Now it's time for a bit of a tangent, because, wow, did I bang my head
+against Rust for a while.
+
+So one of the conclusions which functional programmers made quite
+early on is that Laziness makes for good APIs.  Think about
+~into_iter~ on a collection and the way that you can chain operations
+on iterators.  This API is so powerful that most Rust programs can be
+expressed almost entirely in this style.  Pretty cool stuff(!)
+
+I needed something slightly different though, because I'm looking to
+keep scanning through entries *until* I find one which satisfies some
+properties.  Namely that the approximation is good enough.  Usually
+you work with iterators off of fixed size containers and then convert
+them back into fixed size containers in the end.  I took a look at the
+API for ~Iterator~ and it was confusing.  So much so that I decided
+after looking through the docs that it couldn't possibly handle the
+cases which I needed it to.
+
+So I set about implementing my own iterator.  Here it is.  It
+specifies that things which can iterate should be able to construct
+themselves from a value (presumably the initial value and perhaps a
+bad choice, but I'll get back to that soon).  You should be able to
+advance the iteration by one step
+
+It relies on a few powerful Rust constructs and I'd like to
+spend a moment going through each one.
+
+Firstly, we've all seen traits, but have you seen the Self type?  This
+is used to refer to the type of the struct which implements the
+trait so that the compiler can know the size of the return type.  To
+understand this a bit more consider that we'd instead said that ~next~
+produces an ~Iterable<T>~.  Now the compiler will complain, because
+the size of ~Iterable<T>~ cannot be known at compile time.
+
+This is the biggest issue which I bumped my head into while I was
+working on this problem.  Apparently you can implement a bound trait
+to tell the compiler about the size of the return type, but I never
+got around to looking at that.
+
+Next, lets take a look at my implementation of ~take~.  The
+implementation is pretty strait forward.  I've used fold, but I really
+should have used ~for_each~.  Unfortunately Rust doesn't have
+persistent data structures in its standard library so you're stuck
+pushing onto a vector and returning it, but that's not the end of the
+world because this function looks pure from the outside anyway.
+
+So this function uses a feature which I think will enable Rust to go
+much, much further into the world of FP.  Existentially quantified
+types.  That's an intimidating name for a feature in a type system to
+have, but, like most mathematical ideas, the name is more intimidating
+than the thing itself.
+
+Who can spot the existentially quantified type?  It's over there!
+Some may know this as "abstract types" and that's possibly a better
+name for programmers who were weaned off of ~C~ with OOP.  What this
+essentially means is that there exists some type for which this
+function must work.  Basically put: compiler, this must work for any
+type which is an ~Iterable<T>~, so when I use it that way, that's when
+you can determine the memory constraints etc.
+
+Here's another one which uses existentially quantified types, and this
+time I'm using the ~impl~ keyword in the argument position and in the
+return type.  This time the fold is more appropriate because I'm
+interested in the iterator when I've taken a few elements off of it.
+
+If you're looking at this code and wondering why I didn't just use a
+Trait Object then the answer is simple.  ~impl~ is not boxed.  Pretty
+darn impressive right?  No V-Table lookup or anything(!)  All just
+static dispatch.
+
+Now for a puzzle of sorts: why doesn't this work?  I'll post it online
+so that you can take a look afterwards, but it's not an easy problem
+to solve.  I couldn't solve it over the weekend, maybe you'll have
+more luck!
+
+Alright!  So that's my re-implementation of iterators.  Just as a
+reminder: I did this because I didn't think that Rust supported
+infinite iteration.  It turns out that it does and we'll cover that in
+a minute, but first let's get back to the Newton-Rhapson approximation
+for square roots.
+
+Firstly I need a place to store the number which is being square
+rooted and the current approximation.  Then I need to specify how to
+advance the iteration.  All pretty straight forward stuff, but already
+we've pulled two interesting pieces out of the seemingly indivisible
+imperative solution and created some highly efficient code which
+represents the same thing.  We've also hidden the details of
+dispatching to the ~next_approximation~ function.
+
+How do we use this?  So we can use ~drop~ to see what it'll be like
+after a couple of iterations.  We could also use take to see what the
+convergence looks like.
+
+Now how about finding a value which meets our convergence criteria.
+These are simple now!  All that those functions have to focus on is
+iterating and application of the heuristic.  Unfortunately I couldn't
+get an implementation of ~drop_while~ to work as I showed earlier, so
+we didn't quite get all the way to an implementation which applies the
+heuristic separately from performing the iteration.
+
+So let's see these in action!  As you can see the square root of five
+converges pretty quickly.  We can swap between heuristic easily and
+the definition of the iterator doesn't change.  So we really have
+successfully untangled two pieces of code.
+
+One of the promises I made in the blurb of this presentation was that
+we'd get "~C-like~ performance".  "~C-like~ performance" is being
+thrown around so much these days that it's fast becoming a buzz
+phrase.
+
+Ok.  So let's get some guesses.  Who says that the imperative version
+is faster than the iterator version?  Who says that the iterator
+version is faster?  Who says that there's no measurable difference?
+
+Here's a simple experiment to tell which one it is.  I didn't expect
+these results!  It's pretty much bellow the noise floor, but every
+time that I run it, the iterator comes out faster(!)  That's pretty
+impressive stuff!
+
