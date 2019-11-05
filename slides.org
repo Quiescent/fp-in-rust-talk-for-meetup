@@ -12,9 +12,17 @@
 #+EXCLUDE_TAGS: noexport
 #+CREATOR: Emacs 27.0.50 (Org mode 9.1.9)
 
-* Purpose
- - To have fun, mostly.
- - Show how FP enables composition.
+* Introduction
+
+* CCCC
+** Code
+** Compile
+** Confusion
+** Cycle
+
+* What Am I Actually Going to Do?
+ - Replicate cool FP examples in Rust.
+ - Demonstrate FP features in Rust.
 
 * Straight to Some Code!
 
