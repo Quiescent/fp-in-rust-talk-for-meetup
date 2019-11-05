@@ -53,7 +53,9 @@ Show code from line START, ending COUNT lines after that."
     (rust-mode)
     (text-scale-set 1)
     (demo-it-insert "fn main() {\n    println!(\"sqrt 5: {:?}\", naive_sqrts(5.0, 10));\n}" :fast)
-    (demo-it-start-shell (concat default-directory "re-implement-std-lib/newton-rhapson-square-roots/") nil fir-cargo-run-shell-name)
+    (demo-it-start-shell (concat default-directory "re-implement-std-lib/newton-rhapson-square-roots/")
+                         nil
+                         fir-cargo-run-shell-name)
     (demo-it-insert "cargo run" :medium)
     (eshell-send-input)))
 
