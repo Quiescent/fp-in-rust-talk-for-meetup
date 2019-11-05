@@ -72,7 +72,8 @@ problems in a way which builds upon the previous solutions.  The
 writers of the paper were so masterful that they made it seem as
 though the elements of your program are infinitely divisible.  Into
 small little pieces which are all correct and useful in isolation, and
-which can be used in conjunction to build a bigger program.
+which can be used in conjunction with each other to build a bigger
+program.
 
 Let's take a look at the first one.  Everyone heard of Newton's
 approximation to finding the square root of a number?  Well apparently

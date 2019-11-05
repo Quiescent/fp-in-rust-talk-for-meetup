@@ -25,8 +25,10 @@ Show code from line START, ending COUNT lines after that."
 
 (defun fir-load-series-of-approximations ()
   "Load the series of approximations snippet of code."
-  (demo-it-presentation-advance)
-  (fir-load-line-in-main 9 8))
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-main 9 8)))
 
 (defun fir-cleanup ()
   "Cleanup all temp buffers used in presentation."
@@ -48,10 +50,8 @@ Show code from line START, ending COUNT lines after that."
   (progn
     (fir-cleanup)
     (demo-it-create :single-window
-                    (demo-it-title-screen "code-title.org")
-                    (demo-it-presentation "code-presentation.org")
+                    (demo-it-presentation "Functional Programming in Rust.org")
                     fir-load-next-approximation
-                    fir-close-code-window
                     fir-load-series-of-approximations)
     (demo-it-start)))
 
