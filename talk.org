@@ -153,8 +153,8 @@ to tell the compiler about the size of the return type, but I never
 got around to looking at that.
 
 Next, lets take a look at my implementation of ~take~.  The
-implementation is pretty strait forward.  I've used fold, but I really
-should have used ~for_each~.  Unfortunately Rust doesn't have
+implementation is pretty straight forward.  I've used fold, but I
+really should have used ~for_each~.  Unfortunately Rust doesn't have
 persistent data structures in its standard library so you're stuck
 pushing onto a vector and returning it, but that's not the end of the
 world because this function looks pure from the outside anyway.
