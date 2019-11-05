@@ -134,7 +134,8 @@ So I set about implementing my own iterator.  Here it is.  It
 specifies that things which can iterate should be able to construct
 themselves from a value (presumably the initial value and perhaps a
 bad choice, but I'll get back to that soon).  You should be able to
-advance the iteration by one step
+advance the iteration by one step and you should be able to get the
+current value of the iterator.
 
 It relies on a few powerful Rust constructs and I'd like to
 spend a moment going through each one.
