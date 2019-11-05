@@ -77,6 +77,27 @@ Show code from line START, ending COUNT lines after that."
     (delete-other-windows)
     (fir-cleanup)))
 
+(defun fir-write-iterator-example ()
+  "Write some code to show how awesome iterators are!"
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (demo-it--make-side-window :right 100)
+    (switch-to-buffer fir-main-buffer-name)
+    (rust-mode)
+    (text-scale-set 1)
+    (demo-it-insert "pub fn from_signal(signal: &Signal) -> Correlation {\n        let samples = &signal.samples;\n        Correlation {\n            value: (0..samples.len()).map(|offset| {\n                samples.iter().take(samples.len() - offset)\n                    .zip(samples.iter().skip(offset))\n                    .map(|(sig_i, sig_j)| sig_i * sig_j)\n                    .sum()\n            }).collect()\n        }\n    }" :fast)))
+
+(defun fir-load-iterator-definition ()
+  "Load my implementation of iterators."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (demo-it-load-file "re-implement-std-lib/newton-rhapson-square-roots/src/iterable/iterable.rs"
+                       :side
+                       1
+                       100)))
+
 (defun fir-setup-presentation ()
   "Entry point for the code presentation."
   (interactive)
@@ -86,7 +107,10 @@ Show code from line START, ending COUNT lines after that."
                     (demo-it-presentation "Functional Programming in Rust.org")
                     fir-load-next-approximation
                     fir-load-imperative-solution
-                    fir-run-imperative-solution)
+                    fir-run-imperative-solution
+                    fir-load-imperative-solution
+                    fir-write-iterator-example
+                    fir-load-iterator-definition)
     (demo-it-start)))
 
 (provide 'demo-code)

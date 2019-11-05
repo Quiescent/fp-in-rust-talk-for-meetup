@@ -3,3 +3,9 @@
 * Let's create a series of approximations
 * The square root of 5!
 Amazing! :O
+* This code has useful stuff in it!
+* Iterators are always pointed at when talking about FP
+* My first trait!  ~Iterable~
+ - This trait models something which can be iterated.
+ - It's entirely pure.
+ - When you call next you get a new iterator.

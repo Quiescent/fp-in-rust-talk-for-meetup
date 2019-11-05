@@ -85,11 +85,11 @@ fn main() {
             &NewtonRhapsodyApproximation::new(5.0)).get();
     println!("sqrt 5: {}", within_relative);
 
-    let start_imperative = std::time::Instant::now();
-    println!("sqrt 5: {}", naive_sqrt(5.0, 1000000000));
-    println!("duration imperative: {:?}", std::time::Instant::now().duration_since(start_imperative));
+    // let start_imperative = std::time::Instant::now();
+    // println!("sqrt 5: {}", naive_sqrt(5.0, 1000000000));
+    // println!("duration imperative: {:?}", std::time::Instant::now().duration_since(start_imperative));
 
-    let start_iterator = std::time::Instant::now();
-    println!("sqrt 5: {}", drop(NewtonRhapsodyApproximation::new(5.0), 1000000000).get());
-    println!("duration iterative: {:?}", std::time::Instant::now().duration_since(start_iterator));
+    // let start_iterator = std::time::Instant::now();
+    // println!("sqrt 5: {}", drop(NewtonRhapsodyApproximation::new(5.0), 1000000000).get());
+    // println!("duration iterative: {:?}", std::time::Instant::now().duration_since(start_iterator));
 }
