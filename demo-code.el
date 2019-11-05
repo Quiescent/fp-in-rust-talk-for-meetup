@@ -65,6 +65,7 @@ Show code from line START, ending COUNT lines after that."
   (progn
     (ignore-errors (kill-buffer (concat "Shell: " fir-cargo-run-shell-name)))
     (ignore-errors (kill-buffer fir-main-buffer-name))
+    (ignore-errors (kill-buffer "iterable.rs"))
     (thread-last (buffer-list)
       (cl-remove-if-not (lambda (buffer) (string-match "main\\.rs"
                                                        (buffer-name buffer))))
@@ -98,6 +99,30 @@ Show code from line START, ending COUNT lines after that."
                        1
                        100)))
 
+(defun fir-narrow-to-trait ()
+  "Narrow to the part defining trait in my implementation of iterators."
+  (progn
+    (widen)
+    (narrow-to-region 1 105)))
+
+(defun fir-narrow-to-take ()
+  "Narrow to the implementation of take in my implementation of iterators."
+  (progn
+    (widen)
+    (narrow-to-region 106 341)))
+
+(defun fir-narrow-to-drop ()
+  "Narrow to the implementation of drop in my implementation of iterators."
+  (progn
+    (widen)
+    (narrow-to-region 342 455)))
+
+(defun fir-narrow-to-not-working-function ()
+  "Narrow to the implementation of drop_while in my implementation of iterators."
+  (progn
+    (widen)
+    (narrow-to-region 456 710)))
+
 (defun fir-setup-presentation ()
   "Entry point for the code presentation."
   (interactive)
@@ -110,7 +135,11 @@ Show code from line START, ending COUNT lines after that."
                     fir-run-imperative-solution
                     fir-load-imperative-solution
                     fir-write-iterator-example
-                    fir-load-iterator-definition)
+                    fir-load-iterator-definition
+                    fir-narrow-to-trait
+                    fir-narrow-to-take
+                    fir-narrow-to-drop
+                    fir-narrow-to-not-working-function)
     (demo-it-start)))
 
 (provide 'demo-code)
