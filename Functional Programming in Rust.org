@@ -9,3 +9,4 @@ Amazing! :O
  - This trait models something which can be iterated.
  - It's entirely pure.
  - When you call next you get a new iterator.
+* Iterating over approximations of square root

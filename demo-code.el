@@ -123,6 +123,51 @@ Show code from line START, ending COUNT lines after that."
     (widen)
     (narrow-to-region 456 710)))
 
+(defun fir-load-square-root-struct ()
+  "Load the square root struct code."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-main 27 4)))
+
+(defun fir-load-iterator-impl ()
+  "Load the implementation of square root."
+  (progn
+    (fir-close-code-window)
+    (fir-load-line-in-main 32 20)))
+
+(defun fir-load-heuristics ()
+  "Load the iteration code."
+  (progn
+    (fir-close-code-window)
+    (fir-load-line-in-main 53 15)))
+
+(defun fir-load-main-and-run ()
+  "Load main and run it."
+  (progn
+    (fir-close-code-window)
+    (fir-load-line-in-main 69 27)
+    (other-window 1)
+    (demo-it-start-shell (concat default-directory "re-implement-std-lib/newton-rhapson-square-roots/")
+                         nil
+                         fir-cargo-run-shell-name)
+    (demo-it-insert "cargo run --release" :medium)
+    (eshell-send-input)))
+
+(defun fir-load-main-and-run-all ()
+  "Load main and run it."
+  (progn
+    (fir-close-code-window)
+    (fir-load-line-in-main 69 27)
+    (uncomment-region 2232 2703)
+    (save-buffer)
+    (other-window 1)
+    (demo-it-start-shell (concat default-directory "re-implement-std-lib/newton-rhapson-square-roots/")
+                         nil
+                         fir-cargo-run-shell-name)
+    (demo-it-insert "cargo run --release" :medium)
+    (eshell-send-input)))
+
 (defun fir-setup-presentation ()
   "Entry point for the code presentation."
   (interactive)
@@ -139,7 +184,12 @@ Show code from line START, ending COUNT lines after that."
                     fir-narrow-to-trait
                     fir-narrow-to-take
                     fir-narrow-to-drop
-                    fir-narrow-to-not-working-function)
+                    fir-narrow-to-not-working-function
+                    fir-load-square-root-struct
+                    fir-load-iterator-impl
+                    fir-load-heuristics
+                    fir-load-main-and-run
+                    fir-load-main-and-run-all)
     (demo-it-start)))
 
 (provide 'demo-code)
