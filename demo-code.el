@@ -257,7 +257,7 @@ Show code from line START, ending COUNT lines after that."
   "Run the main file which I wrote for differentiating."
   (progn
     (other-window 1)
-    (demo-it-start-shell (concat default-directory "re-implement-std-lib/newton-rhapson-square-roots/")
+    (demo-it-start-shell (concat default-directory "using-iter/numerical-differentiation/")
                          nil
                          fir-cargo-run-shell-name)
     (demo-it-insert "cargo run --release" :medium)
