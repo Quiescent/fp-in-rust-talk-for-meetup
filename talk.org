@@ -274,11 +274,10 @@ call to zip but also used outside.  I couldn't get ~clone~ or ~copy~
 to work either.
 
 So having established the foundation for working with iterators, lets
-take a look at another example.
+take a look at a better example.
 
-Here we're trying to differentiate a function at a point.
-
-I've copied the implementation of within and relative across.
+Now we're trying to differentiate a function at a point.  I went ahead
+and copied the implementation of ~within~ and ~relative~ across.
 
 Here's a simple calculation for the slope of a function at a point.
 We can successively improve this calculation by choosing a smaller and

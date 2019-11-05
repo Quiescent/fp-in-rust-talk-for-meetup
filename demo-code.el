@@ -168,6 +168,94 @@ Show code from line START, ending COUNT lines after that."
     (demo-it-insert "cargo run --release" :medium)
     (eshell-send-input)))
 
+(defun fir-load-line-in-iter-main (start count)
+  "Present a section of the main file.
+
+Show code from line START, ending COUNT lines after that."
+  (progn
+    (demo-it-load-part-file "using-iter/newton-rhapson-square-roots/src/main.rs"
+                            :line start (+ start count)
+                            :side
+                            1
+                            100)))
+
+(defun fir-load-successor-based-approximation ()
+  "Load my implementation in terms of Successor."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-iter-main 46 3)))
+
+(defun fir-load-successor-based-heuuristics ()
+  "Load my implementation of the heuristics in terms of Successor."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-iter-main 23 19)))
+
+(defun fir-load-successor-based-main ()
+  "Load my main implementation of newton-rhapson in terms of Successor."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-iter-main 50 11)))
+
+(defun fir-load-line-in-diff-main (start count)
+  "Present a section of the main file.
+
+Show code from line START, ending COUNT lines after that."
+  (progn
+    (demo-it-load-part-file "using-iter/numerical-differentiation/src/main.rs"
+                            :line start (+ start count)
+                            :side
+                            1
+                            100)))
+
+(defun fir-load-slope-code ()
+  "Load the code which computes slope."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-diff-main 23 3)))
+
+(defun fir-load-differentiate-approximations-code ()
+  "Load the code which computes slope."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-diff-main 30 6)))
+
+(defun fir-load-main-diff-within-code ()
+  "Load the code which computes within and relative for diff."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-diff-main 63 11)))
+
+(defun fir-load-eliminate-error-code ()
+  "Load the code which eliminates errors for diff."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-diff-main 37 25)))
+
+(defun fir-load-main-eliminate-errors ()
+  "Load the main code which eliminates errors for diff."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-diff-main 74 17)))
+
+(defun fir-run-diff-code ()
+  "Run the main file which I wrote for differentiating."
+  (progn
+    (other-window 1)
+    (demo-it-start-shell (concat default-directory "re-implement-std-lib/newton-rhapson-square-roots/")
+                         nil
+                         fir-cargo-run-shell-name)
+    (demo-it-insert "cargo run --release" :medium)
+    (eshell-send-input)))
+
 (defun fir-setup-presentation ()
   "Entry point for the code presentation."
   (interactive)
@@ -189,7 +277,16 @@ Show code from line START, ending COUNT lines after that."
                     fir-load-iterator-impl
                     fir-load-heuristics
                     fir-load-main-and-run
-                    fir-load-main-and-run-all)
+                    fir-load-main-and-run-all
+                    fir-load-successor-based-approximation
+                    fir-load-successor-based-heuuristics
+                    fir-load-successor-based-main
+                    fir-load-slope-code
+                    fir-load-differentiate-approximations-code
+                    fir-load-main-diff-within-code
+                    fir-load-eliminate-error-code
+                    fir-load-main-eliminate-errors
+                    fir-run-diff-code)
     (demo-it-start)))
 
 (provide 'demo-code)

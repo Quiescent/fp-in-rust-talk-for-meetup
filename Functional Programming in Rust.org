@@ -10,3 +10,17 @@ Amazing! :O
  - It's entirely pure.
  - When you call next you get a new iterator.
 * Iterating over approximations of square root
+* Using std::iter
+* ~within~ & ~relative~ again
+* Here they are in the wild
+* I couldn't get this to work
+ - We need a copy of an infinite iterator!?
+ - I couldn't:
+   - clone;
+   - box;
+   - copy;
+* Slope of a function ~f~ at a point
+* Infinite series of approximations
+* We can re-use the within and relative functions!
+* Eliminate error
+* See it run!
