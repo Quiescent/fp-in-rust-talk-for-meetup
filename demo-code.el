@@ -20,8 +20,9 @@ Show code from line START, ending COUNT lines after that."
 
 (defun fir-load-next-approximation ()
   "Load the next approximation snippet of code."
-  (demo-it-presentation-advance)
-  (fir-load-line-in-main 5 3))
+  (progn
+    (demo-it-presentation-advance)
+    (fir-load-line-in-main 5 3)))
 
 (defun fir-load-imperative-solution ()
   "Load the series of approximations snippet of code."
