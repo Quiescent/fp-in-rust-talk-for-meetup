@@ -300,20 +300,20 @@ component here.  Because we have a series of approximations which
 converges on our answer, but it turns out that there's an error term
 in those approximations which is proportional to ~h~.
 
-It boils down to this formula.  Where n can be computed as follows.
+It boils down to this formula.  Where ~n~ can be computed as follows.
 So let's take the very same iterator which we can use for either the
 ~epsilon~ or the ~within~ functions and let's improve the calculation
 by eliminating the error term which we introduced with the
 approximation.
 
-The series should converge much faster now.  Indeed it does.  I
-peppered the code with ~println~ so that you can see how many ticks it
-took to find the answer.  In this case it's not a massive
+The series should converge faster now.  Indeed it does.  I peppered
+the code with ~println~ so that you can see how many ticks it took to
+find the answer.  In this case it's not a massive
 improvement... initially.  Let's try improving it again.  This is
-getting really unwieldy because I'm not sure how to copy the
-iterator.  (If any of you know then that'd make my day!)  But it does
-indeed improve the convergence.  Now if I could figure out how to copy
-the iterator then we could keep on applying improve and it would
+getting really unwieldy because I'm not sure how to copy the iterator.
+(If any of you know then that'd make my day!)  But it does indeed
+improve the convergence.  Now if I could figure out how to copy the
+iterator then we could keep on applying improve and it would
 eventually converge very quickly.
 
 Let's take a step back though and just think about what we were able
