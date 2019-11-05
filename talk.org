@@ -265,7 +265,7 @@ possible if banging your head against the compiler didn't result in
 severe facial injuries!
 
 Let's take a quick look at how you'd go about using the new infinite
-iterator.  It's pretty much the same expect now you have the full
+iterator.  It's pretty much the same except now you have the full
 power of the Rust standard libraries behind you.
 
 This is what I'd like to have done for the implementation of ~within~
