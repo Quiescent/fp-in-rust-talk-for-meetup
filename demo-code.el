@@ -23,19 +23,49 @@ Show code from line START, ending COUNT lines after that."
   (demo-it-presentation-advance)
   (fir-load-line-in-main 5 3))
 
-(defun fir-load-series-of-approximations ()
+(defun fir-load-imperative-solution ()
   "Load the series of approximations snippet of code."
   (progn
     (fir-close-code-window)
     (demo-it-presentation-advance)
     (fir-load-line-in-main 9 8)))
 
+;; (defun  ()
+;;   "Load the imperative approximations code."
+;;   (progn
+;;     (fir-close-code-window)
+;;     (demo-it-presentation-advance)
+;;     (fir-load-line-in-main )))
+
+(defconst fir-main-buffer-name "*main*"
+  "The name given to the buffer in which we insert the contents of main.")
+
+(defconst fir-cargo-run-shell-name "*Cargo-Run*"
+  "The name given to the buffer for running cargo.")
+
+(defun fir-run-imperative-solution ()
+  "Run the imperative solution to square roots."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (demo-it--make-side-window :right)
+    (switch-to-buffer fir-main-buffer-name)
+    (rust-mode)
+    (text-scale-set 1)
+    (demo-it-insert "fn main() {\n    println!(\"sqrt 5: {:?}\", naive_sqrts(5.0, 10));\n}" :fast)
+    (demo-it-start-shell (concat default-directory "re-implement-std-lib/newton-rhapson-square-roots/") nil fir-cargo-run-shell-name)
+    (demo-it-insert "cargo run" :medium)
+    (eshell-send-input)))
+
 (defun fir-cleanup ()
   "Cleanup all temp buffers used in presentation."
-  (thread-last (buffer-list)
-    (cl-remove-if-not (lambda (buffer) (string-match "main\\.rs"
-                                                     (buffer-name buffer))))
-    (mapc #'kill-buffer)))
+  (progn
+    (ignore-errors (kill-buffer (concat "Shell: " fir-cargo-run-shell-name)))
+    (ignore-errors (kill-buffer fir-main-buffer-name))
+    (thread-last (buffer-list)
+      (cl-remove-if-not (lambda (buffer) (string-match "main\\.rs"
+                                                       (buffer-name buffer))))
+      (mapc #'kill-buffer))))
 
 (defun fir-close-code-window ()
   "Close the code window."
@@ -52,7 +82,8 @@ Show code from line START, ending COUNT lines after that."
     (demo-it-create :single-window
                     (demo-it-presentation "Functional Programming in Rust.org")
                     fir-load-next-approximation
-                    fir-load-series-of-approximations)
+                    fir-load-imperative-solution
+                    fir-run-imperative-solution)
     (demo-it-start)))
 
 (provide 'demo-code)

@@ -90,9 +90,9 @@ Here's a standard imperative solution to the problem.  We ask for an
 epsilon because we don't want global variables hanging over us.  And
 we repeatedly apply the formula until the ratio of the next
 approximation to the previous is good enough.  You can also use the
-absolute difference between two successive values, but this is also
-has some pitfalls.  (You might, for instance, never terminate with
-that method because the approximation might not converge within your
+absolute difference between two successive values, but this also has
+some pitfalls.  (You might, for instance, never terminate with that
+method because the approximation might not converge within your
 desired accuracy.)
 
 This method works fine.  We can find pretty accurate approximations of

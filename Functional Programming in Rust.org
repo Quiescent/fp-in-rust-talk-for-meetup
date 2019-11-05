@@ -1,3 +1,5 @@
 * Let's look at some code...
 * What was the formula again?
 * Let's create a series of approximations
+* The square root of 5!
+Amazing! :O
