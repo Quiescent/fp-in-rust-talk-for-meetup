@@ -200,6 +200,13 @@ Show code from line START, ending COUNT lines after that."
     (demo-it-presentation-advance)
     (fir-load-line-in-iter-main 50 11)))
 
+(defun fir-load-non-working-code ()
+  "Load my main implementation of newton-rhapson in terms of Successor."
+  (progn
+    (fir-close-code-window)
+    (demo-it-presentation-advance)
+    (fir-load-line-in-iter-main 15 7)))
+
 (defun fir-load-line-in-diff-main (start count)
   "Present a section of the main file.
 
@@ -281,6 +288,7 @@ Show code from line START, ending COUNT lines after that."
                     fir-load-successor-based-approximation
                     fir-load-successor-based-heuuristics
                     fir-load-successor-based-main
+                    fir-load-non-working-code
                     fir-load-slope-code
                     fir-load-differentiate-approximations-code
                     fir-load-main-diff-within-code
