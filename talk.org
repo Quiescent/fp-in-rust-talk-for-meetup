@@ -13,20 +13,20 @@
 #+CREATOR: Emacs 27.0.50 (Org mode 9.1.9)
 
 Now I bet you've seen the title and you think that I'm going to come
-up here and try to dazzle you with the beauty and elegance of FP.  In
-truth.  I'm a bit mad.  You see, I've just returned from some
+up here and *try* to dazzle you with the beauty and elegance of FP.
+In truth.  I'm a bit mad.  You see, I've just returned from some
 adventuring overseas, with fresh scars and a healthy bout of jet lag,
 and when Justin asked me whether I still wanted to go through with the
 talk, I said "Sure!  Why not!"
 
-Now it might not sound like such a big deal.  I had a week and a week
-end to put something together for what is usually a very fun and
+Now it might not sound like such a big deal.  I had a week and a
+weekend to put something together for what is usually a very fun and
 informal meetup where we all scratch our heads as we try to understand
-some arcane detail about the Rust language.
+some arcane detail of the Rust language.
 
 Here's the kicker, though.  Are you ready for it?  So I agreed to do a
-talk on Functional Programming in Rust, but I'd never actually written
-a single Rust program in my life.
+talk on Functional Programming in Rust, but I've never actually
+written a single Rust program in my life.
 
 So this weekend I went through the mind numbing experience which is
 the CCCC.  The Code, Compile, Confusion, Cycle.
@@ -48,19 +48,20 @@ goes:
    step.
 
 So.  Obviously.  I wouldn't try something crazy like re-implementing
-some classic example from the world of FP in Rust would I?  Oh yes I
-would and this talk is as much a story of how that went as it is a
+some classic example from the world of FP in Rust.  Would I?  Oh yes I
+would.  This talk is as much a story of how that went as it is a
 discussion of FP in Rust.  What it does well and why I can't seem to
 make it work the way I want it to yet.
 
 So who here has heard of the classic paper "Why Functional Programming
 Matters"?  So it makes the case that Functional Programming matters
 because it describes a set of characteristics which make it easy and
-safe to build bigger programs from small ones and be sure that you're
-always doing so in a way which will be correct.  The important part
-here is *correct*.  Functional programmers generally don't care
-whether a flock of birds dropping stones onto a matrix of balloons
-performs the calculation.  We just want it to be correct.
+safe to build bigger programs from small ones and which enable you to
+be sure that you're always doing so in a way which will be correct.
+The important part here is *correct*.  Functional programmers
+generally don't care whether a flock of birds dropping stones onto a
+matrix of balloons performs the calculation.  We just want it to be
+correct.
 
 So without further ado; let's drop into the story of me bashing my
 head against the rust compiler.
