@@ -65,7 +65,10 @@ Show code from line START, ending COUNT lines after that."
   (progn
     (ignore-errors (kill-buffer (concat "Shell: " fir-cargo-run-shell-name)))
     (ignore-errors (kill-buffer fir-main-buffer-name))
-    (ignore-errors (kill-buffer "iterable.rs"))
+    (thread-last (buffer-list)
+      (cl-remove-if-not (lambda (buffer) (string-match "iterable\\.rs"
+                                                       (buffer-name buffer))))
+      (mapc #'kill-buffer))
     (thread-last (buffer-list)
       (cl-remove-if-not (lambda (buffer) (string-match "main\\.rs"
                                                        (buffer-name buffer))))
