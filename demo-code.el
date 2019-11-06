@@ -268,6 +268,7 @@ Show code from line START, ending COUNT lines after that."
   (interactive)
   (progn
     (fir-cleanup)
+    (global-set-key (kbd "<next>") #'demo-it-step)
     (demo-it-create :single-window
                     (demo-it-presentation "Functional Programming in Rust.org")
                     fir-load-next-approximation
